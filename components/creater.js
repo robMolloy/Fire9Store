@@ -1,6 +1,5 @@
 export const creater = {
   beforeCreate(doc) {
-    console.log(/*LL*/ 11, 'this.uuid', this.uuid);
     Object.assign(doc, { id: this.uuid(), createdAt: Date.now() });
   },
 
