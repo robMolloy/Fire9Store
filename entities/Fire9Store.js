@@ -47,8 +47,8 @@ export class Fire9Store {
   }
 
   async delete(...props) {
-    const fn = this.isManyDocs(props[0].payload) ? this.deleteMany : this.deleteOne;
-    return await fn(...props);
+    if(this.isManyDocs(props[0].payload)) return await this.deleteMany(...props) 
+    return await this.deleteOne(...props);
   }
 
   async deleteOne({ collectionName, payload }) {
