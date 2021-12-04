@@ -4,8 +4,8 @@ export const creater = {
   },
 
   async create(...props) {
-    const fn = this.isManyDocs(props[0].payload) ? this.createMany : this.createOne;
-    return await fn(...props);
+    if(this.isManyDocs(props[0].payload)) return await this.createMany(...props) 
+    return await this.createOne(...props);
   },
 
   async createOne({ collectionName, payload }) {
