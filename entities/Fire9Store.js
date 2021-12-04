@@ -1,11 +1,11 @@
 import { initializeApp } from 'firebase/app';
 // initializeApp(firebaseCredentials);
 
-import { getFirestore, doc, collection, query, where, onSnapshot, getDoc, getDocs, setDoc, updateDoc, deleteDoc } from 'firebase/firestore';
+import { getFirestore, writeBatch, doc, collection, query, where, onSnapshot, getDoc, getDocs, setDoc, updateDoc, deleteDoc } from 'firebase/firestore';
 import { v4 as uuid } from 'uuid';
 import { creater, reader, updater, deleter, listener } from '../components';
 
-const helpers = { doc, collection, query, where, onSnapshot };
+const helpers = { writeBatch, doc, collection, query, where, onSnapshot };
 const crudHelpers = { getDoc, getDocs, setDoc, updateDoc, deleteDoc };
 
 export class Fire9Store {
@@ -42,7 +42,30 @@ export class Fire9Store {
   }
 
   getBatch() {
-    return this.db.batch();
-    // return this.writeBatch(this.db);
+    // return this.db.batch();
+    return this.writeBatch(this.db);
+  }
+
+  async delete(...props) {
+    const fn = this.isManyDocs(props[0].payload) ? this.deleteMany : this.deleteOne;
+    return await fn(...props);
+  }
+
+  async deleteOne({ collectionName, payload }) {
+    const id = payload;
+    const ref = this.getRef({ collectionName, id });
+    return await this.deleteDoc(ref);
+  }
+
+  async deleteMany({ collectionName, payload }) {
+    const ids = payload;
+    const batch = this.getBatch();
+
+    ids.forEach((id) => {
+      const ref = this.getRef({ collectionName, id });
+      batch.delete(ref);
+    });
+
+    return await batch.commit();
   }
 }
