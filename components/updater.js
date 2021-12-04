@@ -4,8 +4,8 @@ export const updater = {
   },
 
   async update(...props) {
-    const fn = this.isManyDocs(props.docs) ? this.updateMany : this.updateOne;
-    return await fn(...props);
+    if(this.isManyDocs(props[0].payload)) return await this.updateMany(...props) 
+    return await this.updateOne(...props);
   },
 
   async updateOne({ collectionName, payload }) {
