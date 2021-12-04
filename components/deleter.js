@@ -12,6 +12,7 @@ export const deleter = {
 
   async deleteMany({ collectionName, payload }) {
     const ids = payload;
+    console.log(/*LL*/ 15, 'ids', ids);
     const batch = this.getBatch();
 
     ids.forEach((id) => {
