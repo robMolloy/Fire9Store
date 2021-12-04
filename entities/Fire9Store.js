@@ -1,11 +1,11 @@
 import { initializeApp } from 'firebase/app';
 // initializeApp(firebaseCredentials);
 
-import { getFirestore, writeBatch, doc, collection, query, where, onSnapshot, getDoc, getDocs, setDoc, updateDoc, deleteDoc } from 'firebase/firestore';
+import { getFirestore, doc, collection, query, where, onSnapshot, getDoc, getDocs, setDoc, updateDoc, deleteDoc } from 'firebase/firestore';
 import { v4 as uuid } from 'uuid';
 import { creater, reader, updater, deleter, listener } from '../components';
 
-const helpers = { writeBatch, doc, collection, query, where, onSnapshot };
+const helpers = { doc, collection, query, where, onSnapshot };
 const crudHelpers = { getDoc, getDocs, setDoc, updateDoc, deleteDoc };
 
 export class Fire9Store {
@@ -42,6 +42,7 @@ export class Fire9Store {
   }
 
   getBatch() {
-    return this.writeBatch(this.db);
+    return this.db.batch();
+    // return this.writeBatch(this.db);
   }
 }
