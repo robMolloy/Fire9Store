@@ -14,6 +14,7 @@ export const deleter = {
     const ids = payload;
     console.log(/*LL*/ 15, 'ids', ids);
     const batch = this.getBatch();
+    console.log(/*LL*/ 11, 'batch', batch);
 
     ids.forEach((id) => {
       const ref = this.getRef({ collectionName, id });
