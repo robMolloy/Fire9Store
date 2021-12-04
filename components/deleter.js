@@ -1,6 +1,6 @@
 export const deleter = {
   async delete(...props) {
-    const fn = this.isManyDocs(props.docs) ? this.deleteMany : this.deleteOne;
+    const fn = this.isManyDocs(props[0].payload) ? this.deleteMany : this.deleteOne;
     return await fn(...props);
   },
 
