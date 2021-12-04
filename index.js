@@ -1,3 +1,3 @@
-import { Fire9Store } from './entities';
+import { Fire9Store, vuexSync } from './entities';
 
-export { Fire9Store };
+export { Fire9Store, vuexSync };
