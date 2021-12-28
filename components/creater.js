@@ -1,6 +1,7 @@
 export const creater = {
   beforeCreate(doc) {
-    Object.assign(doc, { id: this.uuid(), createdAt: Date.now() });
+    doc.createdAt = Date.now()
+    if(!doc.id) doc.id = this.uuid()
   },
 
   async create(...props) {
