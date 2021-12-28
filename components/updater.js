@@ -1,6 +1,23 @@
 export const updater = {
   beforeUpdate(doc) {
-    Object.assign(doc, { updatedAt: Date.now() });
+    doc.updatedAt = Date.now()
+  },
+
+  isValidOne(doc) {
+    if(!doc.id) throw { 
+      action: 'updateOne',
+      message:'Required payload: objects which has an id', 
+      docs
+    }
+  },
+
+  isValidMany(docs) {
+    if(docs.some(({id}) => !id))
+      throw {
+        action: 'updateMany',
+        message:'Required payload: array of objects which all have an id',
+        docs 
+      }
   },
 
   async update(...props) {
@@ -12,6 +29,8 @@ export const updater = {
     const doc = payload;
     this.beforeUpdate(doc);
 
+    this.isValidOne(doc)
+
     const ref = this.getRef({ collectionName, id: doc.id });
     return await this.updateDoc(ref, doc);
   },
@@ -19,6 +38,8 @@ export const updater = {
   async updateMany({ collectionName, payload }) {
     const docs = payload;
     const batch = this.getBatch();
+    
+    this.isValidMany(docs)
 
     docs.forEach((doc) => {
       this.beforeUpdate(doc);
