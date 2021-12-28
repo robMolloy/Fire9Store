@@ -8,8 +8,14 @@ export const reader = {
 
   async readMany({ collectionName, payload = [] }) {
     const ids = payload;
-    const promises = ids.map((id) => this.readOne({ collectionName, payload: id }));
-    return await Promise.all(promises);
+
+    const collection = this.getCollection({collectionName});
+    const where = this.where('id', 'in', ids);
+
+    const q = this.query(collection, where);
+    const docs = this.parseDocs(await this.getDocs(q));
+    
+    return docs;
   },
 
   async readAll({ collectionName }) {
