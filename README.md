@@ -1,5 +1,7 @@
 # Fire9Store
 
+see 'examples/vue/vue.vue' for a cut and paste example
+
 ### Setup
 
 - in 'src/boot/f9Store'
